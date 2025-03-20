@@ -54,18 +54,61 @@ export default function ImageSlider() {
   }, []);
 
   const scrollRef = useRef(null);
+  const [showLeft, setShowLeft] = useState(false);
+  const [showRight, setShowRight] = useState(true);
+
+
+   useEffect(() => {
+    const handleScroll = () => {
+      if (scrollRef.current) {
+        setShowLeft(scrollRef.current.scrollLeft > 0);
+        setShowRight(
+          scrollRef.current.scrollLeft <
+            scrollRef.current.scrollWidth - scrollRef.current.clientWidth
+        );
+      }
+    };
+
+    if (scrollRef.current) {
+      scrollRef.current.addEventListener("scroll", handleScroll);
+      handleScroll(); // Initial check
+    }
+
+    return () => {
+      if (scrollRef.current) {
+        scrollRef.current.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, []);
 
   const scrollLeft = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollLeft -= 200;
+      scrollRef.current.scrollBy({ left: -220, behavior: "smooth" }); // Adjust based on card width
     }
   };
 
   const scrollRight = () => {
     if (scrollRef.current) {
-      scrollRef.current.scrollLeft += 200;
+      scrollRef.current.scrollBy({ left: 220, behavior: "smooth" });
     }
   };
+
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  const handleTouchStart = (e) => {
+    touchStartX = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    touchEndX = e.changedTouches[0].clientX;
+    if (touchStartX - touchEndX > 50) {
+      scrollRight();
+    } else if (touchEndX - touchStartX > 50) {
+      scrollLeft();
+    }
+  };
+
 
   return (
     <div className="w-full h-auto p-6">
@@ -104,47 +147,60 @@ export default function ImageSlider() {
       </div>
 
       <div className="mt-20 mb-10">
-        <p className="text-[30px] w-full text-center font-semibold">OUR BRAND</p>
-        <div className="w-full h-auto pt-10 flex justify-center items-center gap-4">
+      <p className="text-[24px] sm:text-[30px] w-full text-center font-semibold">
+        OUR BRAND
+      </p>
+      <div className="relative w-full flex justify-center items-center pt-10">
+        {/* Left Scroll Button */}
+        {showLeft && (
           <button
-            className="w-[4%] h-auto flex justify-center items-center"
+            className="absolute left-2 w-10 sm:w-12 h-auto flex justify-center items-center z-10"
             onClick={scrollLeft}
           >
-            <GoChevronLeft style={{ fontSize: "36px", color: "#4b4b4b" }} />
+            <GoChevronLeft className="text-3xl sm:text-4xl text-gray-600" />
           </button>
+        )}
 
-          <div
-            ref={scrollRef}
-            className="w-[92%] h-auto flex justify-center items-center gap-8 overflow-x-auto scroll-smooth BrandCardScroll"
-          >
-            {brandCards.map((item, index) => (
-              <div
-                key={index} onClick={BrandClick}
-                className="w-[200px] h-[250px] flex flex-col justify-start items-start cursor-pointer CardShadowStyle"
-              >
-                <div className="h-[75%] w-full">
-                  <Image
-                    src={item.img}
-                    alt="Card Img"
-                    width={200}
-                    height={200}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="h-[25%] w-full flex justify-center items-center bg-[#00B0EF]">
-                  <span className="text-[14px]">{item.label}</span>
-                </div>
+        {/* Scrollable Brand Cards with Snap Scrolling */}
+        <div
+          ref={scrollRef}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+          className="w-[92%] flex gap-4 md:gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide"
+        >
+          {brandCards.map((item, index) => (
+            <div
+              key={index}
+              onClick={BrandClick}
+              className="min-w-[180px] sm:min-w-[200px] md:min-w-[220px] h-[220px] sm:h-[240px] md:h-[260px] flex flex-col cursor-pointer snap-start"
+            >
+              <div className="h-[75%] w-full">
+                <Image
+                  src={item.img}
+                  alt="Card Img"
+                  width={200}
+                  height={200}
+                  className="w-full h-full object-cover"
+                />
               </div>
-            ))}
-          </div>
+              <div className="h-[25%] w-full flex justify-center items-center bg-[#00B0EF]">
+                <span className="text-[12px] sm:text-[14px]">{item.label}</span>
+              </div>
+            </div>
+          ))}
+        </div>
 
+        {/* Right Scroll Button */}
+        {showRight && (
           <button
-            className="w-[4%] h-auto flex justify-center items-center"
+            className="absolute right-2 w-10 sm:w-12 h-auto flex justify-center items-center z-10"
             onClick={scrollRight}
           >
-            <GoChevronRight style={{ fontSize: "36px", color: "#4b4b4b" }} />
+            <GoChevronRight className="text-3xl sm:text-4xl text-gray-600" />
           </button>
-        </div></div>
+        )}
+      </div>
+    </div>
 
 
     </div>

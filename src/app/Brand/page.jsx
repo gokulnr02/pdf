@@ -67,48 +67,60 @@ export default function ImageSlider() {
                 </div>
 
                 <div className="mt-6">
-                    {activeTab === "Category" ? (
-                        <div className="w-full h-auto flex justify-center items-center gap-6 py-8">
-                            <div className="w-auto h-auto flex justify-center items-center rounded-3xl px-6 py-4 gap-4 bg-white cursor-pointer" onClick={()=>handleSelectPdf('BANDING TOOL')}>
-                                <BsTools style={{ fontSize: "22px" }} /> <span className="text-lg font-semibold tracking-wide" >BANDING TOOL</span>
-                            </div>
+  {activeTab === "Category" ? (
+    <div className="w-full h-auto flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-6 py-6">
+    {/* Banding Tool */}
+    <div
+      className="w-[90%] sm:w-auto flex justify-center items-center rounded-3xl px-4 sm:px-6 py-3 sm:py-4 gap-3 sm:gap-4 bg-white cursor-pointer hover:shadow-md transition"
+      onClick={() => handleSelectPdf("BANDING TOOL")}
+    >
+      <BsTools className="text-[22px]" />
+      <span className="text-base sm:text-lg font-semibold tracking-wide">BANDING TOOL</span>
+    </div>
+  
+    {/* High Power */}
+    <div
+      className="w-[90%] sm:w-auto flex justify-center items-center rounded-3xl px-4 sm:px-6 py-3 sm:py-4 gap-3 sm:gap-4 bg-white cursor-pointer hover:shadow-md transition"
+      onClick={() => handleSelectPdf("Small Body")}
+    >
+      <GrTools className="text-[24px]" />
+      <span className="text-base sm:text-lg font-semibold tracking-wide">High Power</span>
+    </div>
+  
+    {/* AutoMobile Tools */}
+    <div className="w-[90%] sm:w-auto flex justify-center items-center rounded-3xl px-4 sm:px-6 py-3 sm:py-4 gap-3 sm:gap-4 bg-white">
+      <FiTool className="text-[24px]" />
+      <span className="text-base sm:text-lg font-semibold tracking-wide">AutoMobile Tools</span>
+    </div>
+  </div>
+  ) : (
+    <div className="w-full h-auto flex flex-col sm:flex-row justify-center items-center gap-4 sm:gap-12 py-6">
+      {/* Branding Images */}
+      <Image
+        src="/Images/Branding/Branding1.jpg"
+        alt="Brand Logo"
+        width={180}
+        height={120}
+       className="w-[90%] sm:w-[180px] h-auto object-cover rounded-lg shadow-md"
+      />
+      <Image
+        src="/Images/Branding/Branding2.jpg"
+        alt="Brand Logo"
+        width={150}
+        height={100}
+        className="w-[90%] sm:w-[180px] h-auto object-cover rounded-lg shadow-md"
+      />
+      <Image
+        src="/Images/Branding/Branding3.jpg"
+        alt="Brand Logo"
+        width={180}
+        height={120}
+       className="w-[90%] sm:w-[180px] h-auto object-cover rounded-lg shadow-md"
+      />
+    </div>
+  )}
+</div>
 
-                            <div className="w-auto h-auto flex justify-center items-center rounded-3xl px-6 py-4 gap-4 bg-white cursor-pointer" onClick={()=>handleSelectPdf('Small Body')}>
-                                <GrTools style={{ fontSize: "24px" }} /> <span className="text-lg font-semibold tracking-wide" >High Power</span>
-                            </div>
-
-                            <div className="w-auto h-auto flex justify-center items-center rounded-3xl px-6 py-4 gap-4 bg-white">
-                                <FiTool style={{ fontSize: "24px" }} /> <span className="text-lg font-semibold tracking-wide">AutoMobile Tools</span>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="w-full h-auto flex justify-center items-center gap-12 py-8">
-                            <Image
-                                src="/Images/Branding/Branding1.jpg"
-                                alt="Brand Logo"
-                                width={180}
-                                height={0}
-                                className="object-cover"
-                            />
-
-                            <Image
-                                src="/Images/Branding/Branding2.jpg"
-                                alt="Brand Logo"
-                                width={150}
-                                height={0}
-                                className="object-cover"
-                            />
-
-                            <Image
-                                src="/Images/Branding/Branding3.jpg"
-                                alt="Brand Logo"
-                                width={180}
-                                height={0}
-                                className="object-cover"
-                            />
-                        </div>
-                    )}
-                </div>
             </div>
 
 
